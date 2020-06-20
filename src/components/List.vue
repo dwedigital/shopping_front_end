@@ -15,7 +15,7 @@
                 <tr>
                 <th scope="col">Item</th>
                 <th scope="col">Quantity</th>
-                <th scope="col">Bought?</th>
+                <th scope="col">In Basket?</th>
                 <th></th>
                 </tr>
             </thead>
@@ -23,11 +23,17 @@
                 <tr v-for="(item) in list" :key="item.id" :class="{
                     bought: item.status,
                     }">
-                    <td>{{ item.item }}</td>
-                    <td>{{item.quantity}}</td>
+                    <td :class="{
+                    strike: item.status,
+                    }">{{ item.item }}</td>
+                    <td :class="{
+                    strike: item.status,
+                    }">{{item.quantity}}</td>
                     <td>
-                        <span v-if="item.status">Yes</span>
-                        <span v-else>No</span>
+                        <span v-if="item.status"><input type="checkbox"
+                        @change="boughtItem(item.id, false)" checked/></span>
+                        <span v-else><input type="checkbox"
+                        @change="boughtItem(item.id, true)"/></span>
                         </td>
                    <td>
                 <div class="btn-group" role="group">
@@ -35,10 +41,6 @@
                   v-b-modal.UpdateModal
                   @click="editItem(item)"
                   >Update</button>
-                  <button type="button" class="btn btn-info btn-sm"
-                  @click="boughtItem(item.id, false)" v-if="item.status">Take Out</button>
-                  <button type="button" class="btn btn-info btn-sm"
-                  @click="boughtItem(item.id, true)" v-else>In Basket</button>
                   <button type="button" class="btn btn-danger btn-sm ml-1"
                   @click="deleteItem(item.id)">Delete</button>
                 </div>
@@ -174,6 +176,9 @@ export default {
 <style scoped>
 .bought{
     background-color: #e8f5e9;
+}
+
+.strike{
     text-decoration: line-through;
 }
 
