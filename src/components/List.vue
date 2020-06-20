@@ -1,6 +1,7 @@
 <template>
 <div class="container">
     <div class="row">
+      Test
     <div class="col-sm-10">
         <h1>Shopping List</h1>
         <alert class="message" :message="message" v-show="showMessage"
@@ -80,7 +81,7 @@ export default {
   },
   methods: {
     getList() {
-      const path = 'http://localhost:5000/list';
+      const path = 'https://shopping-back-end.herokuapp.com/list';
       axios.get(path)
         .then((res) => {
           this.list = res.data.list;
@@ -114,7 +115,7 @@ export default {
       this.editForm.quantity = item.quantity;
     },
     boughtItem(id) {
-      const path = `http://localhost:5000/bought/${id}`;
+      const path = `https://shopping-back-end.herokuapp.com/bought/${id}`;
       axios.put(path)
         .then(() => {
           this.getList();
@@ -126,7 +127,7 @@ export default {
         });
     },
     deleteItem(id) {
-      const path = `http://localhost:5000/list/${id}`;
+      const path = `https://shopping-back-end.herokuapp.com/list/${id}`;
       axios.delete(path)
         .then(() => {
           this.getList();
@@ -138,7 +139,7 @@ export default {
         });
     },
     clearList() {
-      const path = 'http://localhost:5000/list';
+      const path = 'https://shopping-back-end.herokuapp.com/list';
       axios.delete(path)
         .then(() => {
           this.getList();

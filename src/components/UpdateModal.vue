@@ -66,7 +66,7 @@ export default {
       this.updateItem(payload, this.editForm.id);
     },
     updateItem(payload, itemID) {
-      const path = `http://localhost:5000/list/${itemID}`;
+      const path = `https://shopping-back-end.herokuapp.com/list/${itemID}`;
       axios.put(path, payload)
         .then(() => {
           this.$parent.getList();

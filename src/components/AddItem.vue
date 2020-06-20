@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     addItem(payload) {
-      const path = 'http://localhost:5000/list';
+      const path = 'https://shopping-back-end.herokuapp.com/list';
       axios.post(path, payload)
         .then(() => {
           this.$parent.getList();
