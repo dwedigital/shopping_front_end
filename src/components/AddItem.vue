@@ -18,7 +18,7 @@
                   label="Quantity:"
                   label-for="form-quantity-input">
         <b-form-input id="form-quantity-input"
-                      type="text"
+                      type="number"
                       v-model="addItemForm.quantity"
                       required
                       placeholder="Enter quantity">
@@ -39,7 +39,7 @@ export default {
     return {
       addItemForm: {
         item: '',
-        quantity: 0,
+        quantity: 1,
       },
     };
   },
@@ -62,7 +62,7 @@ export default {
           this.showMessage = true;
           setTimeout(() => {
             this.showMessage = false;
-          }, 1000);
+          }, 2000);
           console.log(error);
         });
     },
@@ -83,7 +83,7 @@ export default {
     },
     initForm() {
       this.addItemForm.title = '';
-      this.addItemForm.quantity = 0;
+      this.addItemForm.quantity = 1;
     },
   },
 };

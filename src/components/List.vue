@@ -161,6 +161,7 @@ export default {
   },
   mounted() {
     console.log(this.$refs.editModal.test());
+    console.log(this.$refs.addItemModal);
   },
   components: {
     UpdateModal,
@@ -173,6 +174,7 @@ export default {
 <style scoped>
 .bought{
     background-color: #e8f5e9;
+    text-decoration: line-through;
 }
 
 </style>
