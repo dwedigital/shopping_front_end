@@ -1,7 +1,6 @@
 <template>
 <div class="container">
     <div class="row">
-      Test
     <div class="col-sm-10">
         <h1>Shopping List</h1>
         <alert class="message" :message="message" v-show="showMessage"
