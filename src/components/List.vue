@@ -36,7 +36,9 @@
                   @click="editItem(item)"
                   >Update</button>
                   <button type="button" class="btn btn-info btn-sm"
-                  @click="boughtItem(item.id)">In Basket</button>
+                  @click="boughtItem(item.id, false)" v-if="item.status">Take Out</button>
+                  <button type="button" class="btn btn-info btn-sm"
+                  @click="boughtItem(item.id, true)" v-else>In Basket</button>
                   <button type="button" class="btn btn-danger btn-sm ml-1"
                   @click="deleteItem(item.id)">Delete</button>
                 </div>
@@ -113,9 +115,13 @@ export default {
       this.editForm.item = item.item;
       this.editForm.quantity = item.quantity;
     },
-    boughtItem(id) {
+    boughtItem(id, status) {
+      console.log(status);
+      const payload = {
+        status,
+      };
       const path = `https://shopping-back-end.herokuapp.com/bought/${id}`;
-      axios.put(path)
+      axios.put(path, payload)
         .then(() => {
           this.getList();
         })
