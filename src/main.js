@@ -8,7 +8,7 @@ import List from './components/List.vue';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
-const socket = io('https://shopping-back-end.herokuapp.com/');
+const socket = io('https://shopping-back-end.herokuapp.com');
 
 Vue.use(Router);
 Vue.use(BootstrapVue);
