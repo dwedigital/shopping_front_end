@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import UpdateModal from './UpdateModal.vue';
 import AddItemModal from './AddItem.vue';
 import Alert from './Alert.vue';
@@ -77,30 +78,28 @@ export default {
       editForm: {
         id: 0,
         item: '',
-        quantity: 1,
+        quantity: '',
       },
-      socketconnected: '',
-      socketMessage: '',
     };
   },
   methods: {
-    createList(data) {
-      const list = data;
-      console.log('Data:', list);
-      const sortedList = list.sort((a, b) => {
-        if (a.id < b.id) {
-          return 1;
-        }
-
-        return -1;
-      });
-      this.list = sortedList;
-
-      if (this.list.length > 0) {
-        this.showDelete = true;
-      } else {
-        this.showDelete = false;
-      }
+    getList() {
+      const path = 'https://shopping-back-end.herokuapp.com/list';
+      axios.get(path)
+        .then((res) => {
+          this.list = res.data.list;
+        })
+        .then(() => {
+          if (this.list.length > 0) {
+            this.showDelete = true;
+          } else {
+            this.showDelete = false;
+          }
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.error(error);
+        });
     },
     alert(payload) {
       this.showMessage = payload.showMessage;
@@ -119,35 +118,57 @@ export default {
       this.editForm.quantity = item.quantity;
     },
     boughtItem(id, status) {
+      console.log(status);
       const payload = {
-        id,
         status,
       };
-      this.$socket.client.emit('boughtItem', payload);
+      const path = `https://shopping-back-end.herokuapp.com/bought/${id}`;
+      axios.put(path, payload)
+        .then(() => {
+          this.getList();
+        })
+        .catch((error) => {
+        // eslint-disable-next-line
+          console.log(error);
+          this.getList();
+        });
     },
     deleteItem(id) {
-      this.$socket.client.emit('deleteItem', id);
+      const path = `https://shopping-back-end.herokuapp.com/list/${id}`;
+      axios.delete(path)
+        .then(() => {
+          this.getList();
+        })
+        .catch((error) => {
+        // eslint-disable-next-line
+          console.log(error);
+          this.getList();
+        });
     },
     clearList() {
-      this.$socket.client.emit('clearList');
+      const path = 'https://shopping-back-end.herokuapp.com/list';
+      axios.delete(path)
+        .then(() => {
+          this.getList();
+        })
+        .catch((error) => {
+        // eslint-disable-next-line
+          console.log(error);
+          this.getList();
+        });
     },
   },
   created() {
-    this.$socket.client.emit('getList');
+    this.getList();
+  },
+  mounted() {
+    console.log(this.$refs.editModal.test());
+    console.log(this.$refs.addItemModal);
   },
   components: {
     UpdateModal,
     AddItemModal,
     Alert,
-  },
-  sockets: {
-    // eslint-disable-next-line
-    connect() {
-      this.socketconnected = true;
-    },
-    updateList(data) {
-      this.createList(data);
-    },
   },
 };
 </script>

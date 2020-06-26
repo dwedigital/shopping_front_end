@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 
 export default {
   name: 'UpdateModal',
@@ -50,16 +51,31 @@ export default {
       evt.preventDefault();
       this.$refs.UpdateModal.hide();
       this.initForm();
+      this.getList();
+    },
+    test() {
+      console.log('hola');
     },
     onSubmitUpdate(evt) {
       evt.preventDefault();
       this.$refs.UpdateModal.hide();
       const payload = {
-        id: this.editForm.id,
         item: this.editForm.item,
         quantity: this.editForm.quantity,
       };
-      this.$socket.client.emit('updateItem', payload);
+      this.updateItem(payload, this.editForm.id);
+    },
+    updateItem(payload, itemID) {
+      const path = `https://shopping-back-end.herokuapp.com/list/${itemID}`;
+      axios.put(path, payload)
+        .then(() => {
+          this.$parent.getList();
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.error(error);
+          this.$parent.getList();
+        });
     },
   },
 };

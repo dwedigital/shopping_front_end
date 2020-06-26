@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 
 export default {
   name: 'AddItemModal',
@@ -44,12 +45,26 @@ export default {
   },
   methods: {
     addItem(payload) {
-      this.$socket.client.emit('addItem', payload);
-      this.$socket.client.emit('getList');
-      this.$parent.alert({
-        message: 'Item added',
-        showMessage: true,
-      });
+      const path = 'https://shopping-back-end.herokuapp.com/list';
+      axios.post(path, payload)
+        .then(() => {
+          this.$parent.getList();
+          this.$parent.alert({
+            message: 'Item added',
+            showMessage: true,
+          });
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.log(error);
+          this.$.parent.getList();
+          this.showMessage = 'There was an error';
+          this.showMessage = true;
+          setTimeout(() => {
+            this.showMessage = false;
+          }, 2000);
+          console.log(error);
+        });
     },
     onSubmit(evt) {
       evt.preventDefault();
@@ -58,9 +73,8 @@ export default {
         item: this.addItemForm.item,
         quantity: this.addItemForm.quantity,
       };
-      this.initForm();
-      console.log(this.addItemForm);
       this.addItem(payload);
+      this.initForm();
     },
     onReset(evt) {
       evt.preventDefault();
@@ -70,9 +84,7 @@ export default {
     initForm() {
       this.addItemForm.title = '';
       this.addItemForm.quantity = 1;
-      console.log(this.addItemForm);
     },
   },
-
 };
 </script>
