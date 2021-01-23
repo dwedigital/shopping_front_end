@@ -5,6 +5,7 @@ import App from './App.vue';
 import List from './components/List.vue';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
+import './registerServiceWorker';
 
 Vue.use(Router);
 Vue.use(BootstrapVue);
