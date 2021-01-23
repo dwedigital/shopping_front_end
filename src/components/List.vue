@@ -37,18 +37,18 @@
                         </td>
                    <td>
                 <div class="btn-group" role="group">
-                  <button type="button" class="btn btn-warning btn-sm mr-1"
+                  <button type="button" class="btn btn-warning btn-sm"
                   v-b-modal.UpdateModal
                   @click="editItem(item)"
                   >Update</button>
-                  <button type="button" class="btn btn-danger btn-sm ml-1"
+                  <button type="button" class="btn btn-danger btn-sm"
                   @click="deleteItem(item.id)">Delete</button>
                 </div>
               </td>
                 </tr>
             </tbody>
         </table>
-        <button type="button" class="btn btn-danger btn-sm mt-5"
+        <button type="button" class="btn btn-danger btn-sm mt-5 mb-5 p-2"
         v-on:click="clearList"
         v-show="showDelete"
         >Clear List</button>
@@ -180,6 +180,25 @@ export default {
 
 .strike{
     text-decoration: line-through;
+}
+
+.btn-group{
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-group button{
+  padding:0.2rem;
+  border-radius: 2px!important;
+  width: 100%;
+}
+.btn-group :nth-child(1){
+  margin-bottom: 2px;
+}
+
+.table td{
+  padding:0.75rem 0;
 }
 
 </style>
